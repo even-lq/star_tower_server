@@ -20,6 +20,19 @@ var port = normalizePort(process.env.PORT || '3000');
  */
 
 var server = http.createServer(app.callback());
+const { Server } = require("socket.io");
+
+const io = new Server(server, {
+  cors: true,
+  maxHttpBufferSize: 3 * 1024 * 1024,
+});
+
+io.on("connection", (socket) => {
+  socket.emit("hello", { 3: "4", 5: Buffer.from([6]) }, (response) => {
+    console.log(response); // "got it"
+  });
+});
+
 
 /**
  * Listen on provided port, on all network interfaces.
