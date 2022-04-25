@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../src/app');
 var debug = require('debug')('demo:server');
 var http = require('http');
 
@@ -20,15 +20,15 @@ var port = normalizePort(process.env.PORT || '3000');
  */
 
 var server = http.createServer(app.callback());
-const { Server } = require("socket.io");
+const { Server } = require('socket.io');
 
 const io = new Server(server, {
   cors: true,
   maxHttpBufferSize: 3 * 1024 * 1024,
 });
 
-io.on("connection", (socket) => {
-  socket.emit("hello", { 3: "4", 5: Buffer.from([6]) }, (response) => {
+io.on('connection', (socket) => {
+  socket.emit('hello', { 3: '4', 5: Buffer.from([6]) }, (response) => {
     console.log(response); // "got it"
   });
 });
@@ -77,16 +77,16 @@ function onError(error) {
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
+  case 'EACCES':
+    console.error(bind + ' requires elevated privileges');
+    process.exit(1);
+    break;
+  case 'EADDRINUSE':
+    console.error(bind + ' is already in use');
+    process.exit(1);
+    break;
+  default:
+    throw error;
   }
 }
 
